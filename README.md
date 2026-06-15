@@ -1,11 +1,8 @@
-```markdown
 # MoodMap
 
-<p align="center">
-  <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python">
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
-  <img src="https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey" alt="Platform">
-</p>
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey)
 
 <p align="center">
   Консольная утилита для подбора музыки, книг и рекомендаций на основе текстового описания состояния.
@@ -34,7 +31,7 @@ MoodMap принимает текстовое описание состояни�
 ### Сборка
 
 ```bash
-git clone https://github.com/yourname/moodmap.git
+git clone https://github.com/yyangdev/MoodMap.git
 cd moodmap
 pip install -r requirements.txt
 ```
@@ -142,4 +139,7 @@ app/
 ## Лицензия
 
 MIT. См. [LICENSE](LICENSE).
+```
+git commit -m "Fix README formatting"
+git push
 ```
