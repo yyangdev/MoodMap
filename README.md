@@ -1,54 +1,42 @@
-```markdown
 # MoodMap
 
-<p align="center">
-  <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python">
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
-  <img src="https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey" alt="Platform">
-</p>
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
 
-<p align="center">
-  Консольная утилита для подбора музыки, книг и рекомендаций на основе текстового описания состояния.
-</p>
-
----
-
-## Описание
-
-MoodMap принимает текстовое описание состояния, обрабатывает его через внешние сервисы и возвращает структурированный результат: плейлист из Last.fm, книгу из Open Library и краткую рекомендацию. Приложение работает локально, не требует регистрации и не передаёт данные третьим лицам.
+Консольная утилита для подбора музыки, книг и рекомендаций. Пишете пару слов о состоянии — получаете плейлист, книгу и совет.
 
 ---
 
 ## Установка
 
-### Зависимости
-
-| Пакет | Версия | Назначение |
-|-------|--------|------------|
-| `python` | ≥ 3.10 | Среда выполнения |
-| `rich` | ≥ 13.0 | Интерфейс командной строки |
-| `aiohttp` | ≥ 3.9 | HTTP-клиент |
-| `python-dotenv` | ≥ 1.0 | Загрузка переменных окружения |
-| `loguru` | ≥ 0.7 | Логирование |
-
-### Сборка
-
 ```bash
-git clone https://github.com/yourname/moodmap.git
-cd moodmap
+git clone https://github.com/yyangdev/MoodMap.git
+cd MoodMap
 pip install -r requirements.txt
 ```
 
-### Конфигурация
+| Пакет | Версия |
+|-------|--------|
+| python | ≥ 3.10 |
+| rich | ≥ 13.0 |
+| aiohttp | ≥ 3.9 |
+| python-dotenv | ≥ 1.0 |
+| loguru | ≥ 0.7 |
 
-```bash
-cp .env.example .env
+### Ключи
+
+| Сервис | Где получить |
+|--------|-------------|
+| OpenRouter | [openrouter.ai/keys](https://openrouter.ai/keys) |
+| Last.fm | [last.fm/api](https://www.last.fm/api/account/create) |
+
+Создать `.env`:
+
 ```
-
-| Переменная | Обязательно | Описание |
-|------------|-------------|----------|
-| `OPENROUTER_API_KEY` | Да | Ключ OpenRouter API |
-| `LASTFM_API_KEY` | Да | Ключ Last.fm API |
+OPENROUTER_API_KEY=sk-or-...
+LASTFM_API_KEY=...
+```
 
 ### Запуск
 
@@ -56,86 +44,65 @@ cp .env.example .env
 python app/main.py
 ```
 
+Или скачать `MoodMap.exe` из [релизов](https://github.com/yyangdev/MoodMap/releases).
+
 ---
 
-## Использование
+## Меню
 
-### Главное меню
-
-| Пункт | Функция |
-|-------|---------|
-| `1` | Подбор плейлиста |
-| `2` | Поиск книги |
-| `3` | Получение совета |
-| `4` | Полная рекомендация |
-| `5` | История запросов |
+| Клавиша | Действие |
+|---------|----------|
+| `1` | Плейлист |
+| `2` | Книга |
+| `3` | Совет |
+| `4` | Всё сразу |
+| `5` | История |
 | `6` | Статистика |
 | `0` | Выход |
-
-### Пример
-
-```
-> 4
-Опишите состояние: устал после работы, хочется покоя
-
-Состояние: 3/10
-
-Плейлист:
-  1. Bon Iver — Holocene
-  2. Sufjan Stevens — Mystery of Love
-  3. Cigarettes After Sex — Apocalypse
-
-Книга: «Искусство покоя» — Тит Нат Хан
-
-Совет: 15 минут тишины с чаем
-```
 
 ---
 
 ## API
 
-| Сервис | Endpoint | Аутентификация |
-|--------|----------|----------------|
-| OpenRouter | `POST /api/v1/chat/completions` | Bearer Token |
-| Last.fm | `GET /2.0/` | API Key |
-| Open Library | `GET /search.json` | Нет |
-
-Подробнее: [app/API/api_docs.md](app/API/api_docs.md)
+| Сервис | Endpoint | Ключ |
+|--------|----------|------|
+| OpenRouter | `POST /api/v1/chat/completions` | Bearer |
+| Last.fm | `GET /2.0/` | api_key |
+| Open Library | `GET /search.json` | нет |
 
 ---
 
-## Структура проекта
+## Структура
 
 ```
 app/
-├── api/              # Клиенты внешних сервисов
-│   ├── router.py     #   OpenRouter
-│   ├── music.py      #   Last.fm
-│   ├── book.py       #   Open Library
-│   └── storage.py    #   Локальное хранилище
-├── core/             # Модели, конфигурация, исключения
-│   ├── config.py     #   Загрузка .env
-│   ├── models.py     #   Dataclass-модели
-│   ├── exceptions.py #   Кастомные ошибки
-│   └── logger.py     #   Логирование
-├── service/          # Бизнес-логика
-│   ├── mood.py       #   Определение настроения
-│   ├── recommendation.py # Сборка рекомендаций
-│   └── stats.py      #   Статистика
-├── ui/               # Консольный интерфейс
-│   ├── console.py    #   Настройка Rich
-│   ├── menu.py       #   Главное меню
-│   ├── prompts.py    #   Пользовательский ввод
-│   └── views.py      #   Вывод результатов
-└── main.py           # Точка входа
+├── api/          # Клиенты API
+│   ├── router.py # OpenRouter
+│   ├── music.py  # Last.fm
+│   ├── book.py   # Open Library
+│   └── storage.py
+├── core/         # Конфиг, модели, ошибки
+│   ├── config.py
+│   ├── exceptions.py
+│   └── logger.py
+├── service/      # Бизнес-логика
+│   ├── mood.py
+│   ├── recommendation.py
+│   └── stats.py
+├── ui/           # Интерфейс
+│   ├── console.py
+│   ├── menu.py
+│   ├── prompts.py
+│   └── views.py
+└── main.py
 ```
 
 | Модуль | Документация |
 |--------|-------------|
-| `core` | [core_docs.md](app/core/core_docs.md) |
-| `service` | [service_docs.md](app/service/service_docs.md) |
-| `ui` | [ui_docs.md](app/ui/ui_docs.md) |
-| `api` | [api_docs.md](app/API/api_docs.md) |
+| core | [core_docs.md](app/core/core_docs.md) |
+| service | [service_docs.md](app/service/service_docs.md) |
+| ui | [ui_docs.md](app/ui/ui_docs.md) |
+| api | [api_docs.md](app/API/api_docs.md) |
 
 ---
 
